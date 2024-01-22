@@ -1,0 +1,11 @@
+# Instructs Git to ignore certain files or folders in a project
+
+# Dependencies
+/node_modules
+
+# Testing
+/coverage
+
+# Misc
+.env
+.npm-debug.log*

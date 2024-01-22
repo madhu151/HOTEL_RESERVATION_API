@@ -1,0 +1,115 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: HOTEL_RESERVATION_API
+  description: Service to manage hotel reservations
+basePath: "/api"
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /reservations:
+    get:
+      summary:  Endpoint for retrieving all reservations
+      responses:
+        "200":
+          description: Successfully returned all reservations
+        "500":
+          description: Internal Server Error
+    post:
+      summary:  Endpoint to create a reservation
+      parameters:
+        - name: Reservation Data
+          in: body
+          schema:
+            $ref: "#/definitions/createReservation"
+      responses:
+        "200":
+          description: Successfully cancelled a reservation for a given reservationID
+        "500":
+          description: Internal Server Error
+  /reservations/{reservationId}:
+    get:
+      summary:  Endpoint for retrieving a reservation by ID
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          type: string
+          example: '65ad2e6d1208930a85d6'
+      responses:
+        "200":
+          description: Successfully returned reservation for a given reservationID
+        "500":
+          description: Internal Server Error
+    delete:
+      summary:  Endpoint for cancelling a reservation
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          type: string
+          example: '65ad2e6d1208930a85d69aec'
+      responses:
+        "200":
+          description: Successfully cancelled a reservation for a given reservationID
+        "500":
+          description: Internal Server Error
+  /reservations/search:
+    get:
+      summary:  Endpoint to search for stays that span a date range
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          type: string
+          example: '2023-01-01'
+        - name: endDate
+          in: query
+          required: true
+          type: string
+          example: '2024-01-01'
+      responses:
+        "200":
+          description: Successfully returned list of stays for a given date range
+        "500":
+          description: Internal Server Error
+  /reservations/guest/{reservationId}/summary:
+    get:
+      summary:  Endpoint for retrieving a Guests stay summary
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          type: string
+          example: '65ad2e6d1208930a85d69aec'
+      responses:
+        "200":
+          description: Successfully returned stay summary for a given reservationID
+        "500":
+          description: Internal Server Error
+
+definitions:
+  createReservation:
+    type: "object"
+    properties:
+      guest_member_id:
+        type: "string"  
+      guest_name:
+        type: "string"
+      hotel_name:
+        type: "string"
+      arrival_date:
+        type: "string"
+      departure_date:
+        type: "string"
+      status:
+        type: "string"
+      base_stay_amount:
+        type: "number"
+      tax_amount: 
+        type: "number"

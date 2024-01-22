@@ -1,0 +1,52 @@
+{
+  "name": "hotel-reservation-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --exec node app.js",
+    "eslint": "./node_modules/.bin/eslint --ignore-path .gitignore",
+    "test": "nyc --reporter=lcov --all=true mocha --recursive"
+  },
+  "lint-staged": {
+    "*.js": [
+      "./node_modules/.bin/eslint --ignore-path .gitignore",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run test",
+      "pre-push": "npm run eslint"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
+    "chai": "^5.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.3",
+    "nyc": "^15.1.0",
+    "sinon": "^17.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.2",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "mongoose": "^8.1.0",
+    "path": "^0.12.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.3.4",
+    "yamljs": "^0.3.0"
+  }
+}
