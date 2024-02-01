@@ -45,7 +45,7 @@ const newReservation = async (data) => {
  */
 const cancelReservationByID = async (reservationId) => {
     try {
-        return await reservationModel.findByIdAndUpdate(reservationId);
+        return await reservationModel.findByIdAndUpdate(reservationId, { $set: { status: 'cancelled' } });
     } catch (error) {
         return error.message;
     }
