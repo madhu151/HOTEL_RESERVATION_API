@@ -1,6 +1,7 @@
 const mocha = require('mocha'),
     sinon = require('sinon'),
     { stub, spy } = sinon,
+    assert = require('assert'),
     { describe, before, beforeEach, after, afterEach, it } = mocha,
     {
         getAllReservations,
@@ -23,7 +24,7 @@ describe('Get All Reservations', () => {
         sandbox.restore()
     })
 
-    it('Should get all reservations', async () => {
+    it('Testing getAllReservations() - Should get all reservations', async () => {
         modelStub = sandbox.stub(reservationModel, 'find')
         modelStub.resolves([]);
         const jsonCb = sinon.spy();
@@ -35,6 +36,20 @@ describe('Get All Reservations', () => {
         sinon.assert.calledOnce(modelStub)
     })
 
+    it('Testing getAllReservations() - Should return error while fetching reservations', async () => {
+        modelStub = sandbox.stub(reservationModel, 'find')
+        modelStub.rejects({ message: 'Internal Server Error' });
+        const jsonCb = sinon.spy();
+        res = {
+            json: jsonCb,
+            status: sinon.stub().returns({ json: jsonCb })
+        }
+        const result = await getAllReservations(req, res);
+        sinon.assert.calledOnce(modelStub)
+        // console.log(result)
+        // assert.equal()
+    })
+
     it('Should get a reservation by id', async () => {
         req = {
             params: {
@@ -42,7 +57,18 @@ describe('Get All Reservations', () => {
             }
         }
         modelStub = sandbox.stub(reservationModel, 'findById')
-        modelStub.resolves([]);
+        modelStub.resolves({
+            "_id": "65b83462e2f127533883272f",
+            "guest_member_id": "12345",
+            "guest_name": "John Doe",
+            "hotel_name": "Example Hotel",
+            "arrival_date": "2024-01-20T00:00:00.000Z",
+            "departure_date": "2024-01-25T00:00:00.000Z",
+            "status": "cancelled",
+            "base_stay_amount": 200,
+            "tax_amount": 20,
+            "__v": 0
+        });
         const jsonCb = sinon.spy();
         res = {
             json: jsonCb,
@@ -85,8 +111,10 @@ describe('Get All Reservations', () => {
                 reservationId: 12345
             }
         }
-        modelStub = sandbox.stub(reservationModel, 'findByIdAndDelete')
-        modelStub.resolves([]);
+        modelStub = sandbox.stub(reservationModel, 'findByIdAndUpdate')
+        modelStub.resolves({
+            "message": "Reservation cancelled successfully"
+        });
         const jsonCb = sinon.spy();
         res = {
             json: jsonCb,

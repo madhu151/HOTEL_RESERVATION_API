@@ -7,5 +7,5 @@
 /coverage
 
 # Misc
-.env
+# .env
 .npm-debug.log*

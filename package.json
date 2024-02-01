@@ -1,7 +1,7 @@
 {
   "name": "hotel-reservation-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Service for managing hotel reservations!",
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec node app.js",
@@ -37,6 +37,7 @@
     "sinon": "^17.0.1"
   },
   "dependencies": {
+    "assert": "^2.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.2",
