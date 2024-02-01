@@ -1,5 +1,9 @@
 const reservationModel = require('../models/reservationSchema');
 
+/**
+ * 
+ * @returns list of reservations
+ */
 const getAllReservations = async () => {
     try {
         return await reservationModel.find();
@@ -8,6 +12,11 @@ const getAllReservations = async () => {
     }
 }
 
+/**
+ * 
+ * @param {String} reservationId 
+ * @returns reservation based on given reservationsId
+ */
 const getReservationByID = async (reservationId) => {
     try {
         return await reservationModel.findById(reservationId);
@@ -16,6 +25,11 @@ const getReservationByID = async (reservationId) => {
     }
 }
 
+/**
+ * 
+ * @param {Object} data 
+ * @returns reservationId and success message
+ */
 const newReservation = async (data) => {
     try {
         return await reservationModel.create(data);
@@ -24,6 +38,11 @@ const newReservation = async (data) => {
     }
 }
 
+/**
+ * 
+ * @param {String} reservationId 
+ * @returns message
+ */
 const cancelReservationByID = async (reservationId) => {
     try {
         return await reservationModel.findByIdAndUpdate(reservationId);
@@ -32,11 +51,17 @@ const cancelReservationByID = async (reservationId) => {
     }
 }
 
+/**
+ * 
+ * @param {String} startDate 
+ * @param {String} endDate 
+ * @returns list of stays that span a date range
+ */
 const searchStays = async (startDate, endDate) => {
     console.log(typeof startDate)
     try {
-        const startDate = new Date('2023-01-01');
-        const endDate = new Date('2024-01-01');
+        const startDate = new Date(startDate);
+        const endDate = new Date(endDate);
         const reservations = await reservationModel.find({
             arrival_date: { $lte: endDate },
             departure_date: { $gte: startDate },
@@ -47,6 +72,11 @@ const searchStays = async (startDate, endDate) => {
     }
 }
 
+/**
+ * 
+ * @param {String} guestMemberId 
+ * @returns guest stay summary
+ */
 const guestMemberStaySummary = async (guestMemberId) => {
     try {
         const upcomingStays = await reservationModel.find({
@@ -94,7 +124,11 @@ const guestMemberStaySummary = async (guestMemberId) => {
     }
 }
 
-// Helper function to calculate the night difference between arrival and departure dates
+/**
+ * Helper function to calculate the night difference between arrival and departure dates
+ * @param {Object} stay 
+ * @returns night differnece based on the stay arrival and departure dates
+ */
 const getNightDifference = (stay) => {
     const arrivalDate = new Date(stay.arrival_date);
     const departureDate = new Date(stay.departure_date);
