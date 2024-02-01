@@ -1,13 +1,18 @@
+// Importing JavaScript packages
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+// Load environment variables
 require('dotenv').config();
+
+// Establish connection to DB
 require('./models/dbConnection');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Set up parsers
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -22,7 +27,7 @@ app.use((req, res, next) =>{
 
 app.use('/api', require('./routes'))
 
-// Event listeners and uncaught exceptions
+// Added event listeners for handling uncaught exceptions
 process.on('uncaughtException', (err) =>{
     console.error(`Caught exception: ${err.stack}`)
 })
