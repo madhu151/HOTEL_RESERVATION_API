@@ -1,3 +1,4 @@
+// Importing JavaScript packages
 const express = require('express');
 const { getAllReservations, getReservationByID, newReservation, cancelReservationByID,
 searchStays, guestMemberStaySummary } = require('../services/reservations');
