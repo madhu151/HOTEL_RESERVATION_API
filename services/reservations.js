@@ -58,13 +58,11 @@ const cancelReservationByID = async (reservationId) => {
  * @returns list of stays that span a date range
  */
 const searchStays = async (startDate, endDate) => {
-    console.log(typeof startDate)
+
     try {
-        const startDate = new Date(startDate);
-        const endDate = new Date(endDate);
         const reservations = await reservationModel.find({
-            arrival_date: { $lte: endDate },
-            departure_date: { $gte: startDate },
+            arrival_date: { $lte: new Date(endDate) },
+            departure_date: { $gte: new Date(startDate) },
         });
         return reservations;
     } catch (error) {

@@ -4,6 +4,17 @@ const { getAllReservations, getReservationByID, newReservation, cancelReservatio
 searchStays, guestMemberStaySummary } = require('../services/reservations');
 const router = express.Router();
 
+// Endpoint for searching for stays that span a date range
+router.get('/search', async (req, res) =>{
+    try {
+        const result = await searchStays(req.query.startDate, req.query.endDate);
+        return res.json(result);
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 // Endpoint for retrieving all reservations
 router.get('/', async (req, res) =>{
     try {
@@ -53,21 +64,11 @@ router.delete('/:reservationId', async (req, res) =>{
     }
 });
 
-// Endpoint for searching for stays that span a date range
-router.get('/search', async (req, res) =>{
-    try {
-        const result = await searchStays(req.query.startDate, req.query.endDate);
-        return res.json(result);
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
 
 // Endpoint for retrieving a guest's stay summary
 router.get('/guest/:guestMemberId/summary', async (req, res) =>{
     try {
-        const guestStaySummary = await guestMemberStaySummary(req.params.reservationId);
+        const guestStaySummary = await guestMemberStaySummary(req.params.guestMemberId);
         res.json(guestStaySummary);
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
